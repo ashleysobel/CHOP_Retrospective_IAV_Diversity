@@ -22,11 +22,3 @@ Once the sequence analysis is complete, the scripts for the data analysis can be
   3. 72423-Supplemental.R - organizes the data for Figures S2 - S8
 
  The scripts used to generate Figure 2 is contained in the subfolder XXXX. The scripts used to generate Figures 6 - 9 are contained in the subfolder XXX. 
-
-## Prepare the run environment
-
-We prepare the R environment by clearing the R environment by: 
-
-1. Clearing the environment of variables
-2. Identify the pathway to the R working directory
-3. Loading the necessary packages for the analysis
