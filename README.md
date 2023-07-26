@@ -12,7 +12,27 @@ Prefix-###_D#V#
 
 Here, the prefix is CHOP, the numbers range from 001 - 197, D is the replicate #, and V is the version number. D represents the technical replicate, which denotes an individual RNA extraction from a clinical sample. V represents the version, which is used to identify repeated sequences run from the same RNA extaction. For example, CHOP-001_D1V1, indicates the sample was from CHOP-001, was from the initial RNA extraction, and the first time that extraction was sequenced. Conversely, CHOP-057-D3V1, represents a sample from CHOP-057 which was the 3rd time the RNA was extacted but the first time that extraction was sequenced. 
 
+This script requires the following packages: 
+tidyverse
+Rsamtools
+Biostrings
+GenomicRanges
+GenomicAlignments
+dplyr
+seqinr
+
 2) SampleQC.R: This script performs additional quality control steps for the CHOP sequences an cateogorizes all of the variants identified in the samples. The required input for this script includes: the references sequence (and a csv file with additional information on the CDS/protein coding regions for those references), a reference key that contains the PB2 accession number(s) for your references, the run dates for the sequences, and the additional quality control metrics you have chosen for minimim coverage, mininum Phred quality score, and mininum mapping score. 
+
+This script requires the following packages: 
+phylotools
+seqinr
+dplyr
+tidysq
+stringi
+patchwork 
+stringr 
+purrr
+ggplot2
 
 3) Compile_data.R: This script combines the data from different sequencing runs, incorporates the clean clinical metadata, and identifies technical replicates and ensures there is concordance between the technical replicates (excluding those with poor concordance). 
 
