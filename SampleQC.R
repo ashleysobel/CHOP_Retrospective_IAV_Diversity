@@ -3,6 +3,8 @@
 rm(list = ls())
 R_path <- getwd()
 
+PostProcessingOutput_path <- file.path(R_path,"PostProcessing_OutPut")
+dir.create(PostProcessingOutput_path)
 
 # Load Reference Key (matches PB2 accession # with strain). Make sure this has been updated if your run contains different reference files
 Reference_key <- read.csv("Reference_files/Reference_key.csv")
@@ -11,21 +13,13 @@ Reference_key <- read.csv("Reference_files/Reference_key.csv")
 segment_name <- c("PB2","PB1","PA","HA","NP","NA","MP","NS")
 
 # Load packages
-# library(stringr) #use for str_replace_all, str_replace
+library(stringr) #use for str_replace_all, str_replace
 library(phylotools) # use for read.fasta
 library(dplyr) # use for select
 library(stringi) # use for stri_extract_last
 library(ggplot2) # Use for generating the coverage plots
-# library(gridExtra) # Use for grid.arrange
-# library(grid) # used for textGrob
 library(seqinr) # used for write.fasta, translate
-#library(GenomicRanges)
-#library(ShortRead) 
-#library(ape)
 library(tidysq)
-#library(devtools)
-#library(scales)
-#library(cowplot)
 library(patchwork)
 library(purrr)
 
@@ -425,7 +419,7 @@ for (RD in 1:length(RunDate)){
           seg_seq <- fasta_seg$seq.text; head(seg_seq)
           
           for (i in bad_sites){
-            str_sub(seg_seq,start = i, end = i) <-"N"   
+            stringr::str_sub(seg_seq,start = i, end = i) <-"N"   
           }
           tmp_fasta$seq.text[segx] <- seg_seq  # Update fasta sequence with the masked version
         } 
@@ -529,6 +523,9 @@ for (RD in 1:length(RunDate)){
     segment_name_num <- data.frame(SegNum <- as.double(c(1:8)),Segment <- c("PB2","PB1","PA","HA","NP","NA","MP","NS"))
     colnames(segment_name_num) <- c("SegNum","Segment")
     
+    dir.create(file.path(PipelineOutput_path,"Reference"))
+    dir.create(file.path(PipelineOutput_path,"Reference","Intrahost"))
+    dir.create(file.path(PipelineOutput_path,"Reference","Consensus"))
     
     ### Run variant classification loops
     new_reference_intra_path <- paste0(PipelineOutput_path,"/Reference/Intrahost"); new_reference_intra_path
@@ -618,8 +615,8 @@ for (RD in 1:length(RunDate)){
       Sample_Ref_name_intra <- paste(Strain,'_Ref','_',subject,"_intra",sep=""); Sample_Ref_name_intra
       
       
-      write.csv(x=Ref_pop,file=paste(new_reference_pop_path,'/',Sample_Ref_name_pop,'.csv',sep=""))
-      write.csv(x=Ref_intrahost,file=paste(new_reference_intra_path,'/',Sample_Ref_name_intra,'.csv',sep=""))
+      write.csv(x=Ref_pop,file=paste0(new_reference_pop_path,'/',Sample_Ref_name_pop,'.csv'))
+      write.csv(x=Ref_intrahost,file=paste0(new_reference_intra_path,'/',Sample_Ref_name_intra,'.csv'))
       
       
       # Evaluate mutations in this sample ---------------------------------------
@@ -660,7 +657,7 @@ for (RD in 1:length(RunDate)){
     
     mutation_ouptut_name <-
       paste("MutationOutput", '_', Pipeline_date, '.csv', sep = "")
-    mutation_ouptut_name
-    write.csv(mutation_output, mutation_ouptut_name)
+    mutation_output_path <- file.path(PostProcessingOutput_path,mutation_ouptut_name)
+    write.csv(mutation_output, mutation_output_path)
 
 }

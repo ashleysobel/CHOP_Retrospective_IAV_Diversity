@@ -5,7 +5,8 @@ rm(list = ls())
 
 # Get pathway to working directory
 R_path <- getwd()
-
+dir.create(file.path(R_path,"Pipeline_Output_Files"))
+dir.create(file.path(R_path,"PostProcessing_OutPut"))
 # Prepare environment -----------------------------
 
 # Load packages
@@ -53,7 +54,7 @@ min_Qual <- 30 #Minimum PHRED score
 min_Map <- 40  #Minimum mapping quality
 min_Coverage <- 100 #minimum coverage 
 
-for (RD in 1:length(RunDate)){
+for (RD in 2:length(RunDate)){
   Pipeline_date <- RunDate[RD]
   Pipeline_data_path <- paste0("/Volumes/Elements/FINALIZED_CHOA_Run/IAV_Run_",Pipeline_date,"/",Pipeline_date,"_NGS_FINAL") # CHOP path
   
@@ -179,7 +180,7 @@ for (RD in 1:length(RunDate)){
   }
   
   # Create file for renamed pileup files in the main R directory
-  pileup_renamed_path <- create_dir(R_path,"Pileup_renamed")
+  pileup_renamed_path <- create_dir(R_path,"PostProcessing_OutPut/Pileup_renamed")
   pileup_list <- list.files(path=new_pileup_path,pattern="Pileup.csv",recursive=TRUE)
   nt <- 1
   for (nt in 1:length(pileup_list)){

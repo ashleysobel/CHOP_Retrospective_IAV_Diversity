@@ -34,11 +34,24 @@ stringr
 purrr
 ggplot2
 
-3) Compile_data.R: This script combines the data from different sequencing runs, incorporates the clean clinical metadata, and identifies technical replicates and ensures there is concordance between the technical replicates (excluding those with poor concordance). 
+3) Compile_data.R: This script combines the data from different sequencing runs, incorporates the clean clinical metadata, and identifies technical replicates and ensures there is concordance between the technical replicates (excluding those with poor concordance). This also generates Figure 1. 
+
+This script requires the following packages: 
+stringr
+stringi
+phylotools
+dplyr
+gridExtra
+seqinr
+GenomicRanges
+ShortRead
+Biostrings
+ggplot2
+data.table
 
 Once the sequence analysis is complete, the scripts for the data analysis can be completed. These scripts include: 
-  1. 071623-Data_Analysis.R - complete the data analysis for the CHOP sequences for: Table 1, Figures 1, 3, and S1.  
-  2. CHOP_Dandelion_FINAL.R - organizes the data for Table 2 and Figures 4 - 5
-  3. 72423-Supplemental.R - organizes the data for Figures S2 - S8
+  1. Data_Analysis.R:
+  	Complete the data analysis for the CHOP sequences for: Table 1, Figures 3, and S1.  
+  2. Generate_Dandelion_Plots - organizes the data for Table 2 and Figures 4 - 5
+  3. Generate_Coverage_Plots - generates Figures S2 - S8
 
- The scripts used to generate Figure 2 is contained in the subfolder XXXX. The scripts used to generate Figures 6 - 9 are contained in the subfolder XXX. 
