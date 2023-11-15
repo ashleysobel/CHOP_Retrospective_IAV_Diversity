@@ -18,6 +18,28 @@ library("GenomicAlignments")
 library("dplyr")
 library("seqinr")
 
+# Generate .bib citation file for statistical packages used in analysis
+# List of packages for which you want citations
+package_list <- c("tidyverse", "Rsamtools", "Biostrings","GenomicRanges","GenomicAlignments","dplyr","seqinr")
+
+# Initialize an empty character vector to hold citations
+all_citations <- character(0)
+
+# Loop through each package and get its citation in BibTeX format
+for (pkg in package_list) {
+  citation_info <- utils::toBibtex(citation(pkg))
+  all_citations <- c(all_citations, citation_info)
+}
+
+# Combine all citations into a single string
+all_citations_text <- paste(all_citations, collapse = "\n\n")
+
+# Write the combined citations to a .bib file
+writeLines(all_citations_text, con = file.path(R_path,"Pipeline_Output_Files","pipeline_processing_citations.bib"))
+
+
+
+
 # Define functions -----
 create_dir <- function(parent_path, dir_name) { # Helper function to create directories and return their paths.
   full_path <- file.path(parent_path, dir_name)

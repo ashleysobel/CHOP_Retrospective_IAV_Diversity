@@ -23,6 +23,26 @@ library(tidysq)
 library(patchwork)
 library(purrr)
 
+# Generate .bib citation file for statistical packages used in analysis
+# List of packages for which you want citations
+package_list <- c("stringr", "phylotools", "dplyr","stringi","ggplot2","seqinr","tidysq","patchwork","purrr")
+
+# Initialize an empty character vector to hold citations
+all_citations <- character(0)
+
+# Loop through each package and get its citation in BibTeX format
+for (pkg in package_list) {
+  citation_info <- utils::toBibtex(citation(pkg))
+  all_citations <- c(all_citations, citation_info)
+}
+
+# Combine all citations into a single string
+all_citations_text <- paste(all_citations, collapse = "\n\n")
+
+# Write the combined citations to a .bib file
+writeLines(all_citations_text, con = file.path(PostProcessingOutput_path,"SampleQC_citations.bib"))
+
+
 # Set QC parameters -----------------------
 
 

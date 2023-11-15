@@ -140,6 +140,8 @@ Get_chisq_iSNV_distribution <- function(all_iSNV_segment_summary, nonSynon_iSNV_
   return(p_values)
 }
 
+
+
 GetFeatures <- function(seg_num, genbank_ref, gene_features_palette, gene_segment_names){
   # Isolate reference file for target segment
   Ref_seg <- genbank_ref[[seg_num]]
@@ -384,3 +386,23 @@ H1N1_PB1_Muts <- Muts_VPC[Muts_VPC$Strain == "H1N1" & Muts_VPC$effect_any == "No
 file_name <- paste0(Analysis_date,"-H1N1_PB1_Muts.csv")
 write.csv(H1N1_PB1_Muts,file.path(SegmentSpecific_Muts_path,file_name))
 
+# Calculate probability of iSNV distribution within HA gene segment
+nMut_H3_nonSyn <- 31
+HA_mat_length <- 550
+Antigenic_site_residues <- 62
+Antigenic_site_muts<- 13 
+NonAntigenic_site_muts <- 31 - 13
+Expected_antigenic_site_muts <- nMut_H3_nonSyn/HA_mat_length * Antigenic_site_residues
+Expected_antigenic_site_muts
+Expected_NonAntigenic_site_muts <- nMut_H3_nonSyn/HA_mat_length * (HA_mat_length - Antigenic_site_muts)
+Expected_NonAntigenic_site_muts
+
+
+# Expected probability of a mutation occurring at an antigenic site by chance
+p_expected <- Antigenic_site_residues / HA_mat_length
+
+# Perform the binomial test
+result <- binom.test(Antigenic_site_muts, nMut_H3_nonSyn, p_expected, alternative = "greater")
+
+# Show results
+print(result)
